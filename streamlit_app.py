@@ -20,6 +20,24 @@ with st.sidebar:
         else:
             st.success('Proceed to entering your prompt message!', icon='👉')
     st.markdown('📖 Learn how to build this app in this [blog](https://blog.streamlit.io/how-to-build-an-llm-powered-chatbot-with-streamlit/)!')
+
+# Hugging Face Login
+sign = Login(email, passwd)
+try:
+    cookies = sign.login()
+except Exception as e:
+    st.error(f"Error during Hugging Face login: {e}")
+    st.stop()
+
+# Create ChatBot
+try:
+    chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
+except hugchat.exceptions.CreateConversationError as e:
+    st.error(f"Error creating conversation: {e}")
+    st.stop()
+except Exception as e:
+    st.error(f"Unexpected error creating ChatBot: {e}")
+    st.stop()
     
 # Store LLM generated responses
 if "messages" not in st.session_state.keys():
