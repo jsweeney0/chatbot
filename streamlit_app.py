@@ -2,13 +2,6 @@ import streamlit as st
 from hugchat import hugchat
 from hugchat.login import Login
 
-# Access using secrets
-sign = Login(st.secrets["email"], st.secrets["password"])
-cookies = sign.login()
-sign.saveCookies()
-chatbot = hugchat.ChatBot(cookies=cookies.get_dict())
-
-
 # App title
 st.set_page_config(page_title="🤗💬 HugChat")
 
